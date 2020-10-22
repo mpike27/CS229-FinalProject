@@ -3,12 +3,13 @@ name: 229-Project
 dependencies:
   - python
   - bs4
-  - cv2
-  - glob
   - numpy
   - toolz
   - matplotlib
   - dill
   - pandas
   - partd
-  - pytube
+  - pip:
+    - pytube3
+    - cv2
+    - glob

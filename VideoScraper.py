@@ -1,7 +1,7 @@
 import urllib
 from bs4 import BeautifulSoup
 from pytube import YouTube
-import cv2
+#import cv2
 import os
 import glob
 import numpy as np
@@ -51,7 +51,7 @@ class VideoScraper:
         # return urls
         pass
 
-    def download_from_url(url, filename, path):
+    def download_from_url(self, url, filename, path):
         """
         Method: download_from_url:
         --------------------------
@@ -63,11 +63,10 @@ class VideoScraper:
         Return: None
         """
         try:
-            video = YouTube(url)
-            output_file = video.download(filename, output_path=path)
-            print(f"Video {url} downloaded successfully")
+            YouTube(url).streams.first().download(filename=filename, output_path=path)
+            print(f"Video {filename} downloaded successfully")
         except Exception as exc:
-            print(f"Tried to download {url}, but it did not work because {exc}...")
+            print(f"Tried to download {filename}, but it did not work because {exc}...")
 
     def parseVideos(self, path):
         """
