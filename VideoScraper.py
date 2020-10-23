@@ -1,7 +1,7 @@
 import urllib
 from bs4 import BeautifulSoup
 from pytube import YouTube
-#import cv2
+import cv2
 import os
 import glob
 import numpy as np
@@ -81,11 +81,12 @@ class VideoScraper:
         """
         videos = []
         for video in os.listdir(path):
-            cap = cv2.VideoCapture(video)
+            cap = cv2.VideoCapture(path + '/' + video)
             hasFrames = True
             frames = []
             while hasFrames:
                 hasFrames, image = cap.read()
                 frames.append(image)
             videos.append(frames)
+            print(f"Video {video} was parsed successfully")
         return videos
