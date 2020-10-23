@@ -26,6 +26,9 @@
   0 | matrix(30s) | {0,1}
   compare cached highlight frame with frame from full videos frame in highlight_frames
 
+  3. Had to trim both full and highlight videos - make this automatic
+   - when downloading, put constant to skip first x seconds
+
 
 ### After milestone:
 1. Figure out if we can have cloud storage?

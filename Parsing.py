@@ -2,7 +2,7 @@ from VideoScraper import VideoScraper
 import numpy as np
 
 FULL_VIDEO_PATH = 'Data/Training/Full_Vids'
-FRAMES_PATH = 'Data/Traininng/Frames/'
+FRAMES_PATH = 'Data/Training/Frames/'
 # sample_urls = [('WolvesManCity122719', 'https://www.youtube.com/watch?v=9CeYDWG5wlM')]
 sample_urls = [('WolvesManCity122719H', 'https://www.youtube.com/watch?v=OtdjPcLMP5Y')]
 
@@ -14,7 +14,8 @@ def main():
         #vs.download_from_url(url, video_name, FULL_VIDEO_PATH)
 
 
-        frame_interval = 30  #s - 1 frame every 30 seconds
+        # frame_interval = 30  #s - 1 frame every 30 seconds
+        frame_interval = 1
         vs.saveFrames(video_name,
                       FULL_VIDEO_PATH + '/' + video_name + '.mp4',
                       FRAMES_PATH,
