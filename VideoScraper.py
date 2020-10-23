@@ -5,6 +5,9 @@ from pytube import YouTube
 import os
 import glob
 import numpy as np
+import sklearn
+import pandas as pd
+import cv2
 
 class VideoScraper:
     """
@@ -89,3 +92,58 @@ class VideoScraper:
                 frames.append(image)
             videos.append(frames)
         return videos
+
+
+    def saveFrames(self, filename, video_path, save_path, frame_interval):
+        count = 0
+        cap = cv2.VideoCapture(video_path)   # capturing the video from the given path
+        frameRate = cap.get(5) #frame rate
+        x=1
+        while(cap.isOpened()):
+            frameId = cap.get(1) #current frame number
+            ret, frame = cap.read()
+            if (ret != True):
+                break
+            if (frameId % math.floor(frameRate * frame_interval) == 0):
+                save_name = save_path + filename + "frame%d.jpg" % count;count+=1
+                cv2.imwrite(save_name, frame)
+        cap.release()
+
+
+    def makeDFMilestone(self):
+        h_images = glob("Data/Training/Frames/*.jpg")
+
+        def makeFullMatchFrames(num):
+            count = 0
+            frame_interval = 30
+            cap = cv2.VideoCapture('Data/Training/Full_Vids/WolvesManCity122719.mp4')   # capturing the video from the given path
+            frameRate = cap.get(5) #frame rate
+            x=1
+            while(cap.isOpened() and count < num):
+                frameId = cap.get(1) #current frame number
+                ret, frame = cap.read()
+                if (ret != True):
+                    break
+                if (frameId % math.floor(frameRate * frame_interval) == 0):
+                    save_name = "Data/Training/Frames/Full/WolvesManCity122719frame%d.jpg" % count;count+=1
+                    cv2.imwrite(save_name, frame)
+            cap.release()
+        n_images = glob("Data/Training/Frames/Full/*.jpg")
+        train_image_h = train_image_n = []
+        for i in tqdm(range(len(h_images))):
+            train_image_h.append(h_images[i])
+            train_image_n.append(n_images[i])
+
+        train_data_n = pd.DataFrame()
+        train_data_n['image'] = train_image_n
+        train_data_n['class'] = [0 for _ in range(len(train_image_n))]
+
+        train_data_h = pd.DataFrame()
+        train_data_h['image'] = train_image_h
+        train_data_h['image'] = [1 for _ in range(len(train_image_n))]
+
+        train_data = pd.concat(train_data_h, train_image_n)
+
+        train_data = sklearn.utils.shuffle(train_data)
+
+        train_data.to_csv('Data/Training/DF/train-milestone.csv')
