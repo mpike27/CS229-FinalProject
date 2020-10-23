@@ -71,7 +71,7 @@ def milestoneFromTutorial():
 
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['binary_accuracy'])
     model.fit(train, y_train, epochs=NUM_EPOCHS)
-
+    model.save('baseline-model.h5')
     predictions = model.predict(valid)
     np.savetxt(predictions)
     print("Accuracy: ", np.mean(predictions == y_valid))
