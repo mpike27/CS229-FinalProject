@@ -29,7 +29,6 @@ def downloadVideos(query, path, channel="", maxNumVids=100, clip_len=30):
         if i >= maxNumVids:
             break
         filename = vid['href']
-        print(filename)
         download_from_url('https://www.youtube.com' + filename, filename, path)
         parseVideo(path, filename, clip_len)
         os.remove(path + filename)
@@ -64,7 +63,7 @@ def parseVideo(path, clip_len=30):
     """
     # for video in os.listdir(path + vid_path):
     counter = 0
-    cap = cv2.VideoCapture(path + vid_path + '/' + video)
+    cap = cv2.VideoCapture(path)
     fps = cap.get(cv2.CAP_PROP_FPS)
     # print(f"FPS is {fps}")
     hasFrames = True
@@ -82,5 +81,5 @@ def parseVideo(path, clip_len=30):
             allFrames.append(frames)
             frames = []
         counter += 1
-    np.save(path + save_path + '/' + video[:-4], np.array(allFrames))
-    print(f"Video {video} was parsed successfully")
+    np.save(path[:-4], np.array(allFrames))
+    print(f"Video {path} was parsed successfully")

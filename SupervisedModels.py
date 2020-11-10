@@ -1,4 +1,3 @@
-from VideoScraper import VideoScraper
 import numpy as np
 
 
