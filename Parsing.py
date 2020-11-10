@@ -11,7 +11,6 @@ def main():
     #     vs.download_from_url(url, video_name, train_path)
     # vs.parseVideos(train_path, clip_len)
     vs.downloadVideos(query, train_path)
-    ''' At this point we should have the 30s segments saved as csv unlabeled'''
 
 
 if __name__ == '__main__':
