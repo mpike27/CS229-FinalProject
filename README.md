@@ -13,11 +13,14 @@
   - input videos -> probability of chopped parts being a highlight
 - Hand-label 2 full games each 3*2 = 6 matches
  1. chop full video into 30 second segments
+ - Parsing.py
+
  - for each 30-sec-segment:
   - if this segment is in the highlight video
     - label as 1
   - else
     - label as 0
+
   2. Make csv file for each match as below:
   index | x | y
   0 | matrix(30s) | {0,1}
@@ -26,6 +29,10 @@
 
 ### After milestone:
 1. Figure out if we can have cloud storage?
+
+## Files:
+- Parsing.py: downloads full-length youtube videos, parses it into 30 second segments
+- TrainSupervisedModel.py: loads labeled, training data and trains on model
 
 ## Hyperparameters:
 - length of segment

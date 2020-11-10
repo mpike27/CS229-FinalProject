@@ -2,7 +2,10 @@ from VideoScraper import VideoScraper
 import numpy as np
 
 
+train_path = 'Data/Training/CSV/'
 
+def getData(path):
+    return np.array([np.load(file) for file in os.listdir(path)])
 
 
 def main():
@@ -15,6 +18,7 @@ def main():
     --------------
     Return: None
     """
+    train_data = getData(train_path)
 
 if __name__ == "__main__":
     main()
