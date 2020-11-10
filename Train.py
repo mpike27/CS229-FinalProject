@@ -56,7 +56,9 @@ def getDataTutorial():
 
 def milestoneFromTutorial():
     x_train, x_valid, y_train, y_valid = getDataTutorial()
+    print("len(x_train) before feature extraction: ", len(x_train))
     base_model = keras.applications.vgg16.VGG16(weights='imagenet', include_top=False, input_shape=(224, 224, 3))    # include_top=False to remove the top layer
+    base_model.save('vgg16.h5')
     X_train = base_model.predict(x_train)
     X_valid = base_model.predict(x_valid)
     X_train = X_train.reshape(len(x_train), 7*7*512)
@@ -70,11 +72,13 @@ def milestoneFromTutorial():
     model.add(keras.layers.Dense(1, activation='sigmoid'))    # output layer
 
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['binary_accuracy'])
+    print("len(x_train) right before fit: ", len(train))
     model.fit(train, y_train, epochs=NUM_EPOCHS)
     model.save('baseline-model.h5')
     predictions = model.predict(valid)
     np.savetxt(predictions)
     print("Accuracy: ", np.mean(predictions == y_valid))
+
 def main():
     """
     Function: main

@@ -1,0 +1,5 @@
+keras==2.4.3
+keras-preprocessing==1.1.2
+opencv-python==4.4.0.44
+pytube3==9.6.4
+tensorflow==2.2.0
