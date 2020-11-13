@@ -114,8 +114,9 @@ class VideoScraper:
                 if (ret != True):
                     break
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                save_name = save_path + '/' + 'clip' + str(clip_num) + "/frame%d.tif" % count;count+=1
-                cv2.imwrite(save_name, frame)
+                if (frameId % math.floor(frameRate * frame_interval) == 0):
+                    save_name = save_path + '/' + 'clip' + str(clip_num) + "/frame%d.tif" % count;count+=1
+                    cv2.imwrite(save_name, frame)
             cap.release()
             clip_num += 1
 
