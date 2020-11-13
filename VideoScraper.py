@@ -96,19 +96,28 @@ class VideoScraper:
 
 
     def saveFrames(self, filename, video_path, save_path, frame_interval):
-        count = 0
-        cap = cv2.VideoCapture(video_path)   # capturing the video from the given path
-        frameRate = cap.get(5) #frame rate
-        x=1
-        while(cap.isOpened()):
-            frameId = cap.get(1) #current frame number
-            ret, frame = cap.read()
-            if (ret != True):
-                break
-            if (frameId % math.floor(frameRate * frame_interval) == 0):
-                save_name = save_path + filename + "frame%d.jpg" % count;count+=1
+
+        clip_num = 1
+        for video in os.listdir(video_path):
+            print("Parsing ", video)
+            try:
+                os.mkdir(save_path + '/' + 'clip' + str(clip_num))
+            except Exception as e:
+                print(e)
+            cap = cv2.VideoCapture(video_path + '/' + video)   # capturing the video from the given path
+            frameRate = cap.get(5) #frame rate
+            x=1
+            count = 0
+            while(cap.isOpened()):
+                frameId = cap.get(1) #current frame number
+                ret, frame = cap.read()
+                if (ret != True):
+                    break
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                save_name = save_path + '/' + 'clip' + str(clip_num) + "/frame%d.tif" % count;count+=1
                 cv2.imwrite(save_name, frame)
-        cap.release()
+            cap.release()
+            clip_num += 1
 
 
     def makeDFMilestone(self):

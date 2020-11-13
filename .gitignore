@@ -1,2 +1,8 @@
 Data/Training/Full_Vids/*
-__pycache__/*
+__pycache__*
+Data/Training/Clips/*
+*.mp4
+*.jpg
+*.mov
+*.tif
+*.zip
