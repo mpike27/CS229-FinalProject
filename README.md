@@ -3,8 +3,8 @@
 ## Diving Videos into 30s segments using command line video-splitter:
 1. git clone https://github.com/c0decracker/video-splitter.git
 2. In command line:\
-```python ffmpeg-split.py -f <video_path.mp4> -s <segment_length>```\
-ie ```python ffmpeg-split.py -f big_video_file.mp4 -s 10```
+```python video-splitter/ffmpeg-split.py -f <video_path.mp4> -s <segment_length>```\
+ie ```python ffmpeg-split.py -f Data/Training/Clips/WolvesManCity122719H/WolvesManCity122719H.mp4 -s 30```
 
 ### TODOs:
 1. Save Youtube Files to path - local computer

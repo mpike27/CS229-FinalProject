@@ -73,44 +73,6 @@ class VideoScraper:
         except Exception as exc:
             print(f"Tried to download {filename}, but it did not work because {exc}...")
 
-    def divideFullToClips(self, full_video_path):
-        """
-        Method: parseVideos
-        ----------------------
-        This method will break up each videos into a series of clips, and then format the data into a series of matrices.
-        ----------------------
-        Arguments:
-        None
-        ----------------------
-        Return: numpy array containing the training data extracted from the youtube videos
-        """
-        videos = []
-        try:
-            cap = cv2.VideoCapture(full_video_path)
-        except Exception as e:
-            print(e)
-        video_fps = cap.get(5)#frame rate
-
-        clip = []
-        while(cap.isOpened()):
-            if (len(clip) == video_fps * Config.PLAY_LEN):
-            ret, frame = cap.read()
-            if (ret != True):
-                break
-            if (frameId % math.floor(frameRate * Config.FPS) == 0):
-                save_name = save_path + '/' + 'clip' + str(clip_num) + "/frame%d.tif" % count;count+=1
-                cv2.imwrite(save_name, frame)
-        cap.release()
-
-
-        hasFrames = True
-        frames = []
-        while hasFrames:
-            hasFrames, image = cap.read()
-            frames.append(image)
-        videos.append(frames)
-        return videos
-
 
     def saveFrames(self, filename, video_path, save_path):
 

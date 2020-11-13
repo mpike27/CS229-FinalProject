@@ -6,3 +6,4 @@ Data/Training/Clips/*
 *.mov
 *.tif
 *.zip
+video-splitter*
