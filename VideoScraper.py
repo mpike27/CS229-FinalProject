@@ -47,8 +47,10 @@ def download_from_url(url, filename, path):
     try:
         YouTube(url).streams.first().download(filename=filename, output_path=path)
         print(f"Video {filename} downloaded successfully")
+        return True
     except Exception as exc:
         print(f"Tried to download {filename}, but it did not work because {exc}...")
+        return False
 
 def parseVideo(path, clip_len=30):
     """
@@ -74,7 +76,7 @@ def parseVideo(path, clip_len=30):
         if not hasFrames:
             break
         grayImg  = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        compr_img = cv2.resize(grayImg, (int(grayImg.shape[0] * 0.1), int(grayImg.shape[1] * 0.1)))
+        compr_img = cv2.resize(grayImg, (int(grayImg.shape[0] * 0.05), int(grayImg.shape[1] * 0.05)))
         if counter % fps == 0:
             frames.append(compr_img)
         if len(frames) == clip_len:
