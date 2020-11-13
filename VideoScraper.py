@@ -9,6 +9,7 @@ import sklearn
 import pandas as pd
 import cv2
 import math
+import Config
 
 class VideoScraper:
     """
@@ -72,7 +73,7 @@ class VideoScraper:
         except Exception as exc:
             print(f"Tried to download {filename}, but it did not work because {exc}...")
 
-    def parseVideos(self, path):
+    def divideFullToClips(self, full_video_path):
         """
         Method: parseVideos
         ----------------------
@@ -84,18 +85,34 @@ class VideoScraper:
         Return: numpy array containing the training data extracted from the youtube videos
         """
         videos = []
-        for video in os.listdir(path):
-            cap = cv2.VideoCapture(video)
-            hasFrames = True
-            frames = []
-            while hasFrames:
-                hasFrames, image = cap.read()
-                frames.append(image)
-            videos.append(frames)
+        try:
+            cap = cv2.VideoCapture(full_video_path)
+        except Exception as e:
+            print(e)
+        video_fps = cap.get(5)#frame rate
+
+        clip = []
+        while(cap.isOpened()):
+            if (len(clip) == video_fps * Config.PLAY_LEN):
+            ret, frame = cap.read()
+            if (ret != True):
+                break
+            if (frameId % math.floor(frameRate * Config.FPS) == 0):
+                save_name = save_path + '/' + 'clip' + str(clip_num) + "/frame%d.tif" % count;count+=1
+                cv2.imwrite(save_name, frame)
+        cap.release()
+
+
+        hasFrames = True
+        frames = []
+        while hasFrames:
+            hasFrames, image = cap.read()
+            frames.append(image)
+        videos.append(frames)
         return videos
 
 
-    def saveFrames(self, filename, video_path, save_path, frame_interval):
+    def saveFrames(self, filename, video_path, save_path):
 
         clip_num = 1
         for video in os.listdir(video_path):
@@ -114,7 +131,7 @@ class VideoScraper:
                 if (ret != True):
                     break
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                if (frameId % math.floor(frameRate * frame_interval) == 0):
+                if (frameId % math.floor(frameRate * Config.FPS) == 0):
                     save_name = save_path + '/' + 'clip' + str(clip_num) + "/frame%d.tif" % count;count+=1
                     cv2.imwrite(save_name, frame)
             cap.release()

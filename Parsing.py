@@ -16,12 +16,9 @@ def main():
         # vs.download_from_url(url, video_name, FULL_VIDEO_PATH)
 
 
-        # frame_interval = 30  #s - 1 frame every 30 seconds
-        frame_interval = 1
         vs.saveFrames(video_name,
                       CLIPS_PATH + '/' + video_name,
-                      FRAMES_PATH + '/' + video_name,
-                      frame_interval)
+                      FRAMES_PATH + '/' + video_name)
         # input("Continue? Press enter to continue:")
         # vs.makeDFMilestone()
 
