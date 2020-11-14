@@ -1,25 +1,40 @@
 from VideoScraper import VideoScraper
 import numpy as np
+import os
+from os.path import isfile, join, isdir
+import Config
 
-VIDEO_DOWNLOAD_PATH = 'Data/Training/Clips/'
-FRAMES_PATH = 'Data/Training/Frames/'
-CLIPS_PATH = 'Data/Training/Clips'
+TRAINING_VIDEO_DOWNLOAD_PATH = 'Data/Training/Clips/'
+TRAINING_FRAMES_PATH = 'Data/Training/Frames/'
+CLIPS_PATH = 'Data/Training/Clips/'
 ## Naming of videos is 'TeamTeamMMDDYY' + 'H'(if highlight)
 # sample_urls = [('WolvesManCity122719', 'https://www.youtube.com/watch?v=9CeYDWG5wlM')]
 # sample_urls = [('WolvesManCity122719H', 'https://www.youtube.com/watch?v=OtdjPcLMP5Y')]
-sample_urls = [('ManUtdTot100520H', 'https://www.youtube.com/watch?v=dnjNhcMsT1c')]
+training_urls = [('ManUtdTot100520H', 'https://www.youtube.com/watch?v=dnjNhcMsT1c')]
 
 
 def main():
     vs = VideoScraper()
-    for video_name, url in sample_urls:
+    for video_name, url in training_urls:
         # if video already downloaded, print already downloaded and skip
-        # vs.download_from_url(url, video_name, VIDEO_DOWNLOAD_PATH + 'video_name')
+        if not isdir(TRAINING_VIDEO_DOWNLOAD_PATH + video_name):
+            full_mp4_path = vs.download_from_url(url, video_name, TRAINING_VIDEO_DOWNLOAD_PATH + video_name)
+            if len(full_mp4_path) != 0:  # if full_mp4_path is '', means that download failed
+                print('Splitting ', video_name)
+                os.system('python video-splitter/ffmpeg-split.py -f %s -s %d'
+                            %(full_mp4_path, Config.PLAY_LEN))
+                os.remove(full_mp4_path)
+        else:
+            print("Skipped download of ", video_name)
 
+        # if video already parsed into frames, skip parsing
+        if not isdir(TRAINING_FRAMES_PATH + video_name):
+            vs.saveFrames(video_name,
+                          CLIPS_PATH + video_name,
+                          TRAINING_FRAMES_PATH + video_name)
+        else:
+            print("Skipped making frames for ", video_name)
 
-        vs.saveFrames(video_name,
-                      CLIPS_PATH + '/' + video_name,
-                      FRAMES_PATH + '/' + video_name)
         # input("Continue? Press enter to continue:")
         # vs.makeDFMilestone()
 

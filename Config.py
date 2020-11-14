@@ -1,6 +1,6 @@
 
-DATASET_PATH = "/Data/Training/Frames"
-SINGLE_TEST_PATH = "/Data/Training/Frames/clip10"
+DATASET_PATH = "Data/Training/Frames"
+SINGLE_TEST_PATH = "Data/Training/Frames/ManUtdTot100520H/clip10"
 RELOAD_DATASET = True
 RELOAD_TESTSET = True
 RELOAD_MODEL = True

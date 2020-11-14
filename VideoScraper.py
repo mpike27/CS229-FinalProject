@@ -68,10 +68,13 @@ class VideoScraper:
         Return: None
         """
         try:
+            print("Started download of ", filename)
             YouTube(url).streams.first().download(filename=filename, output_path=path)
             print(f"Video {filename} downloaded successfully")
+            return path + '/' + filename + '.mp4'
         except Exception as exc:
             print(f"Tried to download {filename}, but it did not work because {exc}...")
+            return ''
 
 
     def saveFrames(self, filename, video_path, save_path):
@@ -92,9 +95,8 @@ class VideoScraper:
                 os.mkdir(save_path + '/' + 'clip' + str(video_num))
             except Exception as e:
                 print(e)
-            cap = cv2.VideoCapture(video_path + '/'
-                                   + filename + '-' + str(video_num)
-                                   + suffix)   # capturing the video from the given path
+            clip_path = video_path + '/' + filename + '-' + str(video_num) + suffix
+            cap = cv2.VideoCapture(clip_path)   # capturing the video from the given path
             frameRate = cap.get(5) #frame rate
             x=1
             count = 0
@@ -109,6 +111,7 @@ class VideoScraper:
                     save_name = save_path + '/' + 'clip' + str(video_num) + "/frame%d.tif" % count;count+=1
                     cv2.imwrite(save_name, frame)
             cap.release()
+            # os.remove(clip_path)  # remove mp4 after converting to frames...
 
     def makeDFMilestone(self):
         h_images = glob.glob("Data/Training/Frames/*.jpg")
