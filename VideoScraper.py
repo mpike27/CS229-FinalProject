@@ -75,7 +75,10 @@ class VideoScraper:
 
 
     def saveFrames(self, filename, video_path, save_path):
-
+        try:
+            os.mkdir(save_path)
+        except Exception as e:
+            print(e)
         clip_num = 1
         for video in os.listdir(video_path):
             print("Parsing ", video)
@@ -87,13 +90,15 @@ class VideoScraper:
             frameRate = cap.get(5) #frame rate
             x=1
             count = 0
+            print("frame rate: ", frameRate)
             while(cap.isOpened()):
                 frameId = cap.get(1) #current frame number
                 ret, frame = cap.read()
                 if (ret != True):
                     break
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                if (frameId % math.floor(frameRate * Config.FPS) == 0):
+                if (frameId % int(frameRate * 1/Config.FPS) == 0):
+                    print(frameId)
                     save_name = save_path + '/' + 'clip' + str(clip_num) + "/frame%d.tif" % count;count+=1
                     cv2.imwrite(save_name, frame)
             cap.release()
