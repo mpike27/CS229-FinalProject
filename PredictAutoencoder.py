@@ -8,7 +8,7 @@ def main():
     model = load_model(Config.MODEL_PATH,custom_objects={'LayerNormalization': LayerNormalization})
     print("got model")
     test = ap.get_single_test()
-    print("got test")
+    print("got test - shape: ", test.shape)
 
     # get the reconstruction cost of all the sequences
     reconstructed_sequences = model.predict(sequences,batch_size=4)

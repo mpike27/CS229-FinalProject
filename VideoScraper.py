@@ -79,14 +79,21 @@ class VideoScraper:
             os.mkdir(save_path)
         except Exception as e:
             print(e)
-        clip_num = 1
-        for video in os.listdir(video_path):
+        clip_num = 2
+        videos = os.listdir(video_path)
+        # for i in range(len(videos)):
+        #     name = videos[i][len(filename):].split('-')
+        #     num = name[0] if name[0] != '-' else name[1]
+        videos = [int(videos[i][len(filename):-len('.mp4')]) for i in range(len(videos))]
+        videos.sort()
+        for video in videos:
             print("Parsing ", video)
             try:
                 os.mkdir(save_path + '/' + 'clip' + str(clip_num))
             except Exception as e:
                 print(e)
-            cap = cv2.VideoCapture(video_path + '/' + video)   # capturing the video from the given path
+            cap = cv2.VideoCapture(video_path + '/'
+                                   + filename + str(video) + '.mp4')   # capturing the video from the given path
             frameRate = cap.get(5) #frame rate
             x=1
             count = 0
@@ -98,7 +105,6 @@ class VideoScraper:
                     break
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                 if (frameId % int(frameRate * 1/Config.FPS) == 0):
-                    print(frameId)
                     save_name = save_path + '/' + 'clip' + str(clip_num) + "/frame%d.tif" % count;count+=1
                     cv2.imwrite(save_name, frame)
             cap.release()
