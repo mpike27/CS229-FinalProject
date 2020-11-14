@@ -79,21 +79,22 @@ class VideoScraper:
             os.mkdir(save_path)
         except Exception as e:
             print(e)
-        clip_num = 2
         videos = os.listdir(video_path)
-        # for i in range(len(videos)):
-        #     name = videos[i][len(filename):].split('-')
-        #     num = name[0] if name[0] != '-' else name[1]
-        videos = [int(videos[i][len(filename):-len('.mp4')]) for i in range(len(videos))]
+        for i in range(len(videos)):
+            name = videos[i][len(filename + '-'):]
+            num = name[:name.find('-')]
+            suffix = videos[i][len(filename + '-' + num):]
+            videos[i] = int(num)
         videos.sort()
-        for video in videos:
-            print("Parsing ", video)
+        for video_num in videos:
+            print("Parsing ", video_num)
             try:
-                os.mkdir(save_path + '/' + 'clip' + str(clip_num))
+                os.mkdir(save_path + '/' + 'clip' + str(video_num))
             except Exception as e:
                 print(e)
             cap = cv2.VideoCapture(video_path + '/'
-                                   + filename + str(video) + '.mp4')   # capturing the video from the given path
+                                   + filename + '-' + str(video_num)
+                                   + suffix)   # capturing the video from the given path
             frameRate = cap.get(5) #frame rate
             x=1
             count = 0
@@ -105,11 +106,9 @@ class VideoScraper:
                     break
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                 if (frameId % int(frameRate * 1/Config.FPS) == 0):
-                    save_name = save_path + '/' + 'clip' + str(clip_num) + "/frame%d.tif" % count;count+=1
+                    save_name = save_path + '/' + 'clip' + str(video_num) + "/frame%d.tif" % count;count+=1
                     cv2.imwrite(save_name, frame)
             cap.release()
-            clip_num += 1
-
 
     def makeDFMilestone(self):
         h_images = glob.glob("Data/Training/Frames/*.jpg")

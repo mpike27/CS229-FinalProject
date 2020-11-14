@@ -6,8 +6,8 @@ FRAMES_PATH = 'Data/Training/Frames/'
 CLIPS_PATH = 'Data/Training/Clips'
 ## Naming of videos is 'TeamTeamMMDDYY' + 'H'(if highlight)
 # sample_urls = [('WolvesManCity122719', 'https://www.youtube.com/watch?v=9CeYDWG5wlM')]
-sample_urls = [('WolvesManCity122719H', 'https://www.youtube.com/watch?v=OtdjPcLMP5Y')]
-# sample_urls = [('ManUtdTot100520H', 'https://www.youtube.com/watch?v=dnjNhcMsT1c')]
+# sample_urls = [('WolvesManCity122719H', 'https://www.youtube.com/watch?v=OtdjPcLMP5Y')]
+sample_urls = [('ManUtdTot100520H', 'https://www.youtube.com/watch?v=dnjNhcMsT1c')]
 
 
 def main():
