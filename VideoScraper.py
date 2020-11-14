@@ -100,7 +100,7 @@ class VideoScraper:
             frameRate = cap.get(5) #frame rate
             x=1
             count = 0
-            print("frame rate: ", frameRate)
+            # print("frame rate: ", frameRate)
             while(cap.isOpened()):
                 frameId = cap.get(1) #current frame number
                 ret, frame = cap.read()

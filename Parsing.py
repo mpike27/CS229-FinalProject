@@ -10,7 +10,13 @@ CLIPS_PATH = 'Data/Training/Clips/'
 ## Naming of videos is 'TeamTeamMMDDYY' + 'H'(if highlight)
 # sample_urls = [('WolvesManCity122719', 'https://www.youtube.com/watch?v=9CeYDWG5wlM')]
 # sample_urls = [('WolvesManCity122719H', 'https://www.youtube.com/watch?v=OtdjPcLMP5Y')]
-training_urls = [('ManUtdTot100520H', 'https://www.youtube.com/watch?v=dnjNhcMsT1c')]
+training_urls = [('ManUtdTot100520H', 'https://www.youtube.com/watch?v=dnjNhcMsT1c'),
+                 ('CheSheUtd110820H', 'https://www.youtube.com/watch?v=uyp75pH_mzU'),
+                 ('EveLiv101720H', 'https://www.youtube.com/watch?v=8mEe6o9M144'),
+                 ('ArsAvl110920H', 'https://www.youtube.com/watch?v=AMKLc_TMhdI'),
+                 ('LivSheUtd102520H', 'https://www.youtube.com/watch?v=GNnGxyiwOIs'),
+                 ('NewUtdEve110220H', 'https://www.youtube.com/watch?v=rGEl1_Qhlp4'),
+                 ('BriManUtd092720H', 'https://www.youtube.com/watch?v=WuNnPvPqANU')]
 
 
 def main():
