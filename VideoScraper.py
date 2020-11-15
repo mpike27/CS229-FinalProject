@@ -5,8 +5,9 @@ import cv2
 import os
 import glob
 import numpy as np
+from youtube_search import YoutubeSearch
 
-def downloadVideos(query, path, channel="", maxNumVids=100, clip_len=30):
+def downloadVideos(query, path, dim, clip_len=30, fps=2, maxNumVids=100):
     """
     Method: downloadVideos
     ----------------------
@@ -19,19 +20,12 @@ def downloadVideos(query, path, channel="", maxNumVids=100, clip_len=30):
     ----------------------
     Return: None
     """
-    search = urllib.parse.quote(query)
-    print(search)
-    url = "https://www.youtube.com/results?search_query=" + search
-    response = urllib.request.urlopen(url)
-    html = response.read()
-    soup = BeautifulSoup(html, 'html.parser')
-    for i, vid in enumerate(soup.findAll(attrs={'class':'yt-uix-tile-link'})): #Line that doesn't work
-        if i >= maxNumVids:
-            break
-        filename = vid['href']
-        download_from_url('https://www.youtube.com' + filename, filename, path)
-        parseVideo(path, filename, clip_len)
-        os.remove(path + filename)
+    results = YoutubeSearch(query, max_results=maxNumVids).to_dict()
+    for i, result in enumerate(results):
+        if download_from_url('https://www.youtube.com' + result['url_suffix'], str(i), path):
+            parseVideo(path + str(i) + '.mp4', dim, clip_len, fps)
+            os.remove(path + str(i) + '.mp4')
+
 
 def download_from_url(url, filename, path):
     """
@@ -52,7 +46,7 @@ def download_from_url(url, filename, path):
         print(f"Tried to download {filename}, but it did not work because {exc}...")
         return False
 
-def parseVideo(path, clip_len=30):
+def parseVideo(path, dim, clip_len=30, fps=2):
     """
     Method: parseVideos
     ----------------------
@@ -66,8 +60,8 @@ def parseVideo(path, clip_len=30):
     # for video in os.listdir(path + vid_path):
     counter = 0
     cap = cv2.VideoCapture(path)
-    fps = cap.get(cv2.CAP_PROP_FPS)
-    # print(f"FPS is {fps}")
+    fps_vid = int(cap.get(cv2.CAP_PROP_FPS))
+    # print(f"Clip_len is {clip_len}")
     hasFrames = True
     frames = []
     allFrames = []
@@ -76,8 +70,8 @@ def parseVideo(path, clip_len=30):
         if not hasFrames:
             break
         grayImg  = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        compr_img = cv2.resize(grayImg, (int(grayImg.shape[0] * 0.05), int(grayImg.shape[1] * 0.05)))
-        if counter % fps == 0:
+        compr_img = cv2.resize(grayImg, dim)
+        if counter % (fps_vid / fps) == 0:
             frames.append(compr_img)
         if len(frames) == clip_len:
             allFrames.append(frames)
