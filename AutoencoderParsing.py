@@ -57,6 +57,34 @@ def get_training_set():
                 clips.extend(get_clips_by_stride(stride=stride, frames_list=all_frames, sequence_size=Config.SEQ_LEN))
     return clips
 
+#----------------------------- Parse Data From Max DB ----------------------------#
+def get_max_training_set():
+    """
+    Returns
+    -------
+    list
+        A list of training sequences of shape (NUMBER_OF_SEQUENCES,SINGLE_SEQUENCE_SIZE,FRAME_WIDTH,FRAME_HEIGHT,1)
+    """
+    #####################################
+    # cache = shelve.open(Config.CACHE_PATH)
+    # return cache["datasetLSTM"]
+    #####################################
+    clips = []
+    # loop over the training folders (Train000,Train001,..)
+    print('Found %d games' %len(listdir(Config.TRAINSET_PATH)))
+    for game in sorted(listdir(Config.TRAINSET_PATH))[:3]:
+        all_frames = np.load(join(Config.TRAINSET_PATH, game))
+        print("loaded shape: ", all_frames.shape)
+        print("reshaped shape: ", all_frames.reshape(-1, 256, 256).shape)
+        all_frames = all_frames.reshape(-1, 256, 256)
+        print("Loaded ", game)
+        # get the SEQ_LEN sequences from the list of images after applying data augmentation
+        for stride in range(1, 3):
+#             print('all_frames.shape: ', np.array(all_frames).shape)
+            clips.extend(get_clips_by_stride(stride=stride, frames_list=all_frames, sequence_size=Config.SEQ_LEN))
+#             print('clips.shape: ', np.array(clips).shape)
+#             input()
+    return clips
 # def get_single_test():
 #     test = np.zeros(shape=(Config.FPP, 256, 256, 1))
 #     cnt = 0

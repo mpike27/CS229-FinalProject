@@ -1,6 +1,7 @@
 import keras
 from keras.layers import Conv2DTranspose, ConvLSTM2D, BatchNormalization, TimeDistributed, Conv2D, LayerNormalization
 from keras.models import Sequential, load_model
+import AutoencoderParsing as ap
 
 def BuildAndTrain():
     """
@@ -9,7 +10,7 @@ def BuildAndTrain():
     n/a
     """
 
-    training_set = get_training_set()
+    training_set = ap.get_training_set()
     training_set = np.array(training_set)
     seq = Sequential()
     seq.add(TimeDistributed(Conv2D(128, (11, 11), strides=4, padding="same"), batch_input_shape=(None, Config.SEQ_LEN, 256, 256, 1)))
