@@ -10,8 +10,10 @@ def BuildAndTrain():
     n/a
     """
 
-    training_set = ap.get_training_set()
+    # training_set = ap.get_training_set()
+    training_set = ap.get_max_training_set()
     training_set = np.array(training_set)
+    print("Shape of training_set: ", training_set.shape)
     seq = Sequential()
     seq.add(TimeDistributed(Conv2D(128, (11, 11), strides=4, padding="same"), batch_input_shape=(None, Config.SEQ_LEN, 256, 256, 1)))
     seq.add(LayerNormalization())
