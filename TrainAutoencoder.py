@@ -2,6 +2,8 @@ import keras
 from keras.layers import Conv2DTranspose, ConvLSTM2D, BatchNormalization, TimeDistributed, Conv2D, LayerNormalization
 from keras.models import Sequential, load_model
 import AutoencoderParsing as ap
+import Config
+import numpy as np
 
 def BuildAndTrain():
     """
