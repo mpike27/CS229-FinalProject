@@ -73,7 +73,7 @@ def get_max_training_set():
     # loop over the training folders (Train000,Train001,..)
     print('Found %d games' %len(listdir(Config.TRAINSET_PATH)))
     for game in sorted(listdir(Config.TRAINSET_PATH))[:3]:
-        all_frames = np.load(join(Config.TRAINSET_PATH, game), allow_pickled=True)
+        all_frames = np.load(join(Config.TRAINSET_PATH, game), allow_pickle=True)
         print("loaded shape: ", all_frames.shape)
         print("reshaped shape: ", all_frames.reshape(-1, 256, 256).shape)
         all_frames = all_frames.reshape(-1, 256, 256)
