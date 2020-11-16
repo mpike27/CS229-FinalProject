@@ -57,15 +57,37 @@ def get_training_set():
                 clips.extend(get_clips_by_stride(stride=stride, frames_list=all_frames, sequence_size=Config.SEQ_LEN))
     return clips
 
-def get_single_test():
+# def get_single_test():
+#     test = np.zeros(shape=(Config.FPP, 256, 256, 1))
+#     cnt = 0
+#     for f in sorted(listdir(Config.SINGLE_TEST_PATH)):
+#         if str(join(Config.SINGLE_TEST_PATH, f))[-3:] == "tif":
+#             img = Image.open(join(Config.SINGLE_TEST_PATH, f)).resize((256, 256))
+#             img = np.array(img, dtype=np.float32) / 256.0
+#             test[cnt, :, :, 0] = img
+#             cnt = cnt + 1
+#
+#     sz = test.shape[0] - Config.SEQ_LEN
+#     sequences = np.zeros((sz, Config.SEQ_LEN, 256, 256, 1))
+#     # apply the sliding window technique to get the sequences
+#     for i in range(0, sz):
+#         clip = np.zeros((Config.SEQ_LEN, 256, 256, 1))
+#         for j in range(0, Config.SEQ_LEN):
+#             clip[j] = test[i + j, :, :, :]
+#         sequences[i] = clip
+#     return sequences
+
+def get_single_test(test_clip):
     test = np.zeros(shape=(Config.FPP, 256, 256, 1))
     cnt = 0
-    for f in sorted(listdir(Config.SINGLE_TEST_PATH)):
-        if str(join(Config.SINGLE_TEST_PATH, f))[-3:] == "tif":
-            img = Image.open(join(Config.SINGLE_TEST_PATH, f)).resize((256, 256))
+    for f in sorted(listdir(join(Config.TESTSET_PATH, test_clip))):
+        if cnt == Config.FPP:
+            break
+        if str(join(join(Config.TESTSET_PATH, test_clip), f))[-3:] == "tif":
+            img = Image.open(join(join(Config.TESTSET_PATH, test_clip), f)).resize((256, 256))
             img = np.array(img, dtype=np.float32) / 256.0
             test[cnt, :, :, 0] = img
-            cnt = cnt + 1
+            cnt += 1
 
     sz = test.shape[0] - Config.SEQ_LEN
     sequences = np.zeros((sz, Config.SEQ_LEN, 256, 256, 1))
