@@ -1,5 +1,5 @@
 
-TRAINSET_PATH = "Data/Training/Frames"
+TRAINSET_PATH = "../../max/max-git/Data/Training/CSV"
 TESTSET_PATH = "Data/Testing/Frames/WolvesManUtd031619"
 SINGLE_TEST_PATH = "Data/Training/Frames/ManUtdTot100520H/clip10"
 RELOAD_DATASET = True
