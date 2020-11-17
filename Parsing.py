@@ -19,7 +19,8 @@ training_urls = [('WolvesManCity122719H', 'https://www.youtube.com/watch?v=OtdjP
                  ('LivSheUtd102520H', 'https://www.youtube.com/watch?v=GNnGxyiwOIs'),
                  ('NewUtdEve110220H', 'https://www.youtube.com/watch?v=rGEl1_Qhlp4'),
                  ('BriManUtd092720H', 'https://www.youtube.com/watch?v=WuNnPvPqANU')]
-testing_urls = [('WolvesManUtd031619F', 'https://www.youtube.com/watch?v=KMq-ZsSbnVA')]
+testing_urls = [('WolvesManUtd031619F', 'https://www.youtube.com/watch?v=KMq-ZsSbnVA'),
+                ('BayRmd072119', 'https://www.youtube.com/watch?v=kEyqyYJhIIg')]
 
 def main(test):
     vs = VideoScraper()
